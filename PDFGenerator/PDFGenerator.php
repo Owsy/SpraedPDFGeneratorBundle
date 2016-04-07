@@ -101,8 +101,15 @@ final class PDFGenerator
             1 => ['pipe', 'w'],
             // stderr is a pipe that the child will write to
             2 => ['pipe', 'w']];
+        $commandOpts = $this->getOption('command');
 
-        $process = proc_open($command, $descriptorspec, $pipes);
+        $process = proc_open(
+            $command,
+            $descriptorspec,
+            $pipes,
+            null,
+            isset($commandOpts['env']) ? $commandOpts['env'] : null
+        );
 
         if (is_resource($process)) {
             // $pipes now looks like this:
